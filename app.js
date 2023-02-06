@@ -29,24 +29,24 @@ app.post('/generate_image', (req, res) => {
       return res.status(500).send(err);
     }
     const response = JSON.parse(body);
-    res.send(`
-      <html>
-        <body>
-          <form action="/generate_image" method="post">
-            <input type="text" name="description" placeholder="Enter a description" />
-            <button type="submit">Generate Image</button>
-          </form>
-          <br />
-          if (!response.data) {
-            console.error('Error: No data returned from OpenAI API');
-          } else if (!response.data[0]) {
-            console.error('Error: No image returned from OpenAI API');
-          } else {
-            res.send('<img src="${response.data[0].url}" />');
-          }
-        </body>
-      </html>
-    `);
+    if (!response.data) {
+      console.error('Error: No data returned from OpenAI API');
+    } else if (!response.data[0]) {
+      console.error('Error: No image returned from OpenAI API');
+    } else {
+      res.send(`
+        <html>
+          <body>
+            <form action="/generate_image" method="post">
+              <input type="text" name="description" placeholder="Enter a description" />
+              <button type="submit">Generate Image</button>
+            </form>
+            <br />
+            <img src="${response.data[0].url}" />
+          </body>
+        </html>
+      `);
+    }
   });
 });
 
