@@ -37,7 +37,13 @@ app.post('/generate_image', (req, res) => {
             <button type="submit">Generate Image</button>
           </form>
           <br />
-          <img src="${response.data[0].url}" />
+          if (!response.data) {
+            console.error('Error: No data returned from OpenAI API');
+          } else if (!response.data[0]) {
+            console.error('Error: No image returned from OpenAI API');
+          } else {
+            res.send(`<img src="${response.data[0].url}" />`);
+          }
         </body>
       </html>
     `);
